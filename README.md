@@ -18,7 +18,7 @@ This project will make use of 2 APIs
 #### Wireframes
 ![Home](wireframes/Home.jpg "Home")
 
-![Eat](wireframes/Eat.jpgm"Eat")
+![Eat](wireframes/Eat.jpg "Eat")
 
 ![Drink](wireframes/Drink.jpg "Drink")
 
