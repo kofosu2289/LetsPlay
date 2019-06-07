@@ -16,5 +16,4 @@ This project will make use of 2 APIs
 -add contact page with ability for users to send me feedback
 
 #### Wireframes
-
-[Home](Home.jpg)
+![Home](Home.jpg "Home")
