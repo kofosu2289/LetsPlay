@@ -16,4 +16,12 @@ This project will make use of 2 APIs
 -add contact page with ability for users to send me feedback
 
 #### Wireframes
-![Home](Home.jpg)
+![Home](wireframes/Home.jpg "Home")
+
+![Eat](wireframes/Eat.jpgm"Eat")
+
+![Drink](wireframes/Drink.jpg "Drink")
+
+![BeMerry](wireframes/beMerry.jpg "Be Merry(Random)")
+
+![Faves](wireframes/Faves.jpg "Favorites")
