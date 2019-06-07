@@ -2,8 +2,8 @@
 
 #### API
 This project will make use of 2 APIs
-- **[TheCocktailDB](https://www.thecocktaildb.com/api.php)
-- **[TheMealDB](https://www.themealdb.com/api.php)
+- [TheCocktailDB](https://www.thecocktaildb.com/api.php)
+- [TheMealDB](https://www.themealdb.com/api.php)
   
 #### Features
 - Homepage will have links to Food, Drink, Random Selections, and Favorites
@@ -12,5 +12,9 @@ This project will make use of 2 APIs
 - Favorites will use information stored in localStorage to output a list of user's favorite meals and drinks
   
 #### Stretch Goals
--implement an option to generate a shopping list for a specific meal or drink recipe.
+-Implement an option to generate a shopping list for a specific meal or drink recipe.
 -add contact page with ability for users to send me feedback
+
+#### Wireframes
+
+[Home](Home.jpg)
