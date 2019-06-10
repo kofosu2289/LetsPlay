@@ -1,16 +1,19 @@
-# Project #1: Insatiab.le
+# Project #1: Let's Play Yahtzee!
 
 #### API
-This project will make use of 2 APIs
-- **[TheCocktailDB](https://www.thecocktaildb.com/api.php)
-- **[TheMealDB](https://www.themealdb.com/api.php)
-  
+
+This project will make use of the DiceAPI
+
+- [DiceAPI](http://roll.diceapi.com/)
+
 #### Features
-- Homepage will have links to Food, Drink, Random Selections, and Favorites
-- Food and Drink pages will have option to search by meal/drink name or ingredient
-- Random Selections page will have option to return a random meal or drink
-- Favorites will use information stored in localStorage to output a list of user's favorite meals and drinks
-  
+
+- On page load, app will ask player for their name
+- When the game starts, a game board will appear with the scoring options
+- Clicking the roll dice button simulates a roll of 5 different six-sided dice
+- Player has 3 rolls per turn
+- Player can choose which dice to hold or roll
+
 #### Stretch Goals
--implement an option to generate a shopping list for a specific meal or drink recipe.
--add contact page with ability for users to send me feedback
+
+-Multiple players
