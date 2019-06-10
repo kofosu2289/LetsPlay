@@ -91,3 +91,19 @@ const scoreOnes = () => {
     resetRollNumber();
   }
 };
+
+const scoreTwos = () => {
+  let twosDiv = document.getElementById('twos');
+  if (twosDiv.textContent === '') {
+    let dice = document.getElementsByClassName('die');
+    let scoreArray = [];
+    for (let die of dice) {
+      if (die.textContent == '2') {
+        scoreArray.push(die.textContent)
+      }
+    }
+    let sum = scoreArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
+    twosDiv.textContent = sum;
+    resetRollNumber();
+  }
+};
