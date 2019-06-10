@@ -314,18 +314,18 @@ const scoreSmallStraight = () => {
       let joinedUnique = uniqueItems.join('')
 
       if (
-        joinedUnique == '1234' ||
-        joinedUnique == '2345' ||
-        joinedUnique == '3456'
+        joinedUnique === '1234' ||
+        joinedUnique === '2345' ||
+        joinedUnique === '3456'
       ) {
-        smallStraight.textContent = '30'
+        smallStraight.textContent = '30';
       } else {
-        smallStraight.textContent = '0'
+        smallStraight.textContent = '0';
       }
     } else {
-      smallStraight.textContent = '0'
+      smallStraight.textContent = '0';
     }
-    resetRollNumber()
+    resetRollNumber();
   }
 };
 
@@ -333,104 +333,130 @@ const scoreSmallStraight = () => {
 const scoreLargeStraight = () => {
   const winningArrays = [
     [1, 2, 3, 4, 5],
-    [2, 3, 4, 5, 6]
-  ]
-  let largeStraight = document.getElementById('large-straight')
+    [2, 3, 4, 5, 6],
+  ];
+  const largeStraight = document.getElementById('large-straight')
   if (largeStraight.textContent === '') {
-    let dice = document.getElementsByClassName('die');
-    let diceArray = [];
+    const dice = document.getElementsByClassName('die');
+    const diceArray = [];
     for (let die of dice) {
-      diceArray.push(die.textContent)
+      diceArray.push(die.textContent);
     }
-    let sortedArray = diceArray.sort((a, b) => parseInt(a) - parseInt(b))
+    const sortedArray = diceArray.sort((a, b) => parseInt(a) - parseInt(b));
     if (winningArrays[0].join('') === sortedArray.join('') || winningArrays[1].join('') === sortedArray.join('')) {
-      largeStraight.textContent = '40'
+      largeStraight.textContent = '40';
     } else {
-      largeStraight.textContent = '0'
+      largeStraight.textContent = '0';
     }
-    resetRollNumber()
+    resetRollNumber();
   }
 };
 
 const scoreYahtzee = () => {
-  let yahtzee = document.getElementById('yahtzee')
+  const yahtzee = document.querySelector('#yahtzee');
   if (yahtzee.textContent === '') {
-    let dice = document.getElementsByClassName('die');
-    let diceArray = [];
+    const dice = document.getElementsByClassName('die');
+    const diceArray = [];
     for (let die of dice) {
-      diceArray.push(die.textContent)
+      diceArray.push(die.textContent);
     }
-    let scoreArray = [];
+    const scoreArray = [];
     for (let i = 1; i < (diceArray.length + 1); i++) {
       if (diceArray[0] === diceArray[i]) {
-        scoreArray.push(diceArray[i])
+        scoreArray.push(diceArray[i]);
       }
     }
     if (scoreArray.length === 4 && scoreArray[0] !== '0') {
-      yahtzee.textContent = '50'
+      yahtzee.textContent = '50';
     } else {
-      yahtzee.textContent = '0'
+      yahtzee.textContent = '0';
     }
-    resetRollNumber()
+    resetRollNumber();
   }
 };
 
 const scoreChance = () => {
-  let chanceDiv = document.getElementById('chance')
+  const chanceDiv = document.querySelector('#chance');
   if (chanceDiv.textContent === '') {
-    let dice = document.getElementsByClassName('die');
-    let diceArray = [];
+    const dice = document.getElementsByClassName('die');
+    const diceArray = [];
     for (let die of dice) {
-      diceArray.push(die.textContent)
+      diceArray.push(die.textContent);
     }
-    let sum = diceArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
+    const sum = diceArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
     chanceDiv.textContent = sum;
-    resetRollNumber()
+    resetRollNumber();
   }
 };
 
 
 const scoreBonus = () => {
-  let bonusDiv = document.getElementById('bonus')
-  let yahtzee = document.getElementById('yahtzee')
+  const bonusDiv = document.querySelector('#bonus');
+  const yahtzee = document.querySelector('#yahtzee');
   if (bonusDiv.textContent === '' && yahtzee.textContent === '50') {
-    let dice = document.getElementsByClassName('die');
-    let diceArray = [];
+    const dice = document.getElementsByClassName('die');
+    const diceArray = [];
     for (let die of dice) {
-      diceArray.push(die.textContent)
+      diceArray.push(die.textContent);
     }
-    let scoreArray = [];
+    const scoreArray = [];
     for (let i = 1; i < (diceArray.length + 1); i++) {
       if (diceArray[0] === diceArray[i]) {
-        scoreArray.push(diceArray[i])
+        scoreArray.push(diceArray[i]);
       }
     }
     if (scoreArray.length === 4 && scoreArray[0] !== '0') {
-      bonusDiv.textContent = '100'
+      bonusDiv.textContent = '100';
     } else {
-      bonusDiv.textContent = '0'
+      bonusDiv.textContent = '0';
     }
-    resetRollNumber()
+    resetRollNumber();
   }
 };
 
 const reset = () => {
-  let dice = document.getElementsByClassName('die');
+  const dice = document.getElementsByClassName('die');
   for (let die of dice) {
     die.textContent = '0'
-    die.style = 'border: 1px solid black;'
+    die.style.border = '1px solid black;'
     die.className = 'die'
   }
-  let scoreSpans = document.getElementsByClassName('score-span');
+  const scoreSpans = document.getElementsByClassName('score-span');
   for (let span of scoreSpans) {
-    span.textContent = ''
+    span.textContent = '';
   }
-  rollNumber = 0
-  turnNumber = 0
-  let rollDiv = document.getElementById('rollDiv')
-  rollDiv.textContent = rollNumber
-  let totalDiv = document.getElementById('total')
-  totalDiv.textContent = 'Total: '
-  let rollBtn = document.getElementById('roll-btn')
-  rollBtn.disabled = false
+  rollNumber = 0;
+  turnNumber = 0;
+  const rollDiv = querySelector('#rollDiv');
+  rollDiv.textContent = rollNumber;
+  const totalDiv = document.querySelector('#total');
+  totalDiv.textContent = 'Total: ';
+  const rollBtn = document.querySelector('#roll-btn');
+  rollBtn.disabled = false;
 };
+
+
+document.querySelector('.ones').addEventListener('click', scoreOnes);
+document.querySelector('.twos').addEventListener('click', scoreTwos);
+document.querySelector('.threes').addEventListener('click', scoreThrees);
+document.querySelector('.fours').addEventListener('click', scoreFours);
+document.querySelector('.fives').addEventListener('click', scoreFives);
+document.querySelector('.sixes').addEventListener('click', scoreSixes);
+
+document.querySelector('.three-kind').addEventListener('click', scoreThreeKind);
+document.querySelector('.four-kind').addEventListener('click', scoreFourKind);
+document.querySelector('.full-house').addEventListener('click', scoreFullHouse);
+document.querySelector('.small-straight').addEventListener('click', scoreSmallStraight);
+document.querySelector('.large-straight').addEventListener('click', scoreLargeStraight);
+document.querySelector('.yahtzee').addEventListener('click', scoreYahtzee);
+document.querySelector('.chance').addEventListener('click', scoreChance);
+document.querySelector('.bonus').addEventListener('click', scoreBonus);
+
+document.querySelector('#dice').childNodes.forEach((child, i) => {
+  if (i % 2 !== 0) {
+    child.addEventListener('click', lockDie(child.id));
+  }
+});
+
+document.querySelector('#roll-btn').addEventListener('click', rollAll);
+document.querySelector('#reset-btn').addEventListener('click', reset);
