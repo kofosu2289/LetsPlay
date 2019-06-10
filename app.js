@@ -122,4 +122,20 @@ const scoreThrees = () => {
     threesDiv.textContent = sum;
     resetRollNumber();
   }
-}
+};
+
+const scoreFours = () => {
+  let foursDiv = document.getElementById('fours');
+  if (foursDiv.textContent === '') {
+    let dice = document.getElementsByClassName('die');
+    let scoreArray = [];
+    for (let die of dice) {
+      if (die.textContent == '4') {
+        scoreArray.push(die.textContent)
+      }
+    }
+    let sum = scoreArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
+    foursDiv.textContent = sum;
+    resetRollNumber();
+  }
+};
