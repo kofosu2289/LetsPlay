@@ -171,3 +171,42 @@ const scoreSixes = () => {
     resetRollNumber();
   }
 };
+
+const scoreThreeKind = () => {
+  let threeKind = document.getElementById('three-kind');
+  if (threeKind.textContent === '') {
+    let dice = document.getElementsByClassName('die');
+    let diceArray = [];
+    for (let die of dice) {
+      diceArray.push(die.textContent);
+    }
+    let sortedArray = diceArray.sort((a, b) => parseInt(a) - parseInt(b));
+
+    let first = sortedArray[0];
+    let middle = sortedArray[2];
+    let last = sortedArray[4];
+
+    let firstArray = [];
+    let middleArray = [];
+    let lastArray = [];
+
+    for (let number of sortedArray) {
+      if (number === first) {
+        firstArray.push(number);
+      }
+      if (number === middle) {
+        middleArray.push(number);
+      }
+      if (number === last) {
+        lastArray.push(number);
+      }
+    }
+    if (firstArray.length === 3 || middleArray.length === 3 || lastArray.length === 3) {
+      let sum = diceArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
+      threeKind.textContent = sum
+    } else {
+      threeKind.textContent = '0'
+    }
+    resetRollNumber();
+  }
+}
