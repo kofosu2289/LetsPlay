@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Let's Play | Yahtzee</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+  <script src="app.js"></script>
+</head>
+
+<body>
+  <h1 id='title'>Scorecard</h1>
+  <hr>
+  <div id='scorecard'>
+    <div id='top-score'></div>
+    <div class='score-div'>Ones: <span id='ones' class='score-span top-scores'></span></div>
+    <div class='score-div'>Twos: <span id='twos' class='score-span top-scores'></span></div>
+    <div class='score-div'>Threes: <span id='threes' class='score-span top-scores'></span></div>
+    <div class='score-div'>Fours: <span id='fours' class='score-span top-scores'></span></div>
+    <div class='score-div'>Fives: <span id='fives' class='score-span top-scores'></span></div>
+    <div class='score-div'>Sixes: <span id='sixes' class='score-span top-scores'></span></div>
+  </div>
+  <hr>
+  <div id='bottom-score'>
+    <div class='score-div'>Three of a Kind: <span id='three-kind' class='score-span'></span>
+    </div>
+    <div class='score-div'>Four of a Kind: <span id='four-kind' class='score-span'></span>
+    </div>
+    <div class='score-div'>Full House: <span id='full-house' class='score-span'></span></div>
+    <div class='score-div'>Small Straight: <span id='small-straight' class='score-span'></span></div>
+    <div class='score-div'>Large Straight: <span id='large-straight' class='score-span'></span></div>
+    <div class='score-div'>Yahtzee: <span id='yahtzee' class='score-span'></span></div>
+    <div class='score-div'>Chance: <span id='chance' class='score-span'></span></div>
+    <div class='score-div'>Bonus: <span id='bonus' class='score-span'></span></div>
+  </div>
+  <hr>
+  <div id='dice'>
+    <button id='die1' class='die'>0</button>
+    <button id='die2' class='die'>0</button>
+    <button id='die3' class='die'>0</button>
+    <button id='die4' class='die'>0</button>
+    <button id='die5' class='die'>0</button>
+    <button id='roll-btn'>Roll Dice</button>
+  </div>
+  <div>Roll: <span id='rollDiv'>0 </span><span id='total'>Total: </span></div><button id='reset-btn'>Reset</button>
+</body>
+
+</html>
