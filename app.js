@@ -107,3 +107,19 @@ const scoreTwos = () => {
     resetRollNumber();
   }
 };
+
+const scoreThrees = () => {
+  let threesDiv = document.getElementById('threes');
+  if (threesDiv.textContent === '') {
+    let dice = document.getElementsByClassName('die');
+    let scoreArray = [];
+    for (let die of dice) {
+      if (die.textContent == '3') {
+        scoreArray.push(die.textContent)
+      }
+    }
+    let sum = scoreArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
+    threesDiv.textContent = sum;
+    resetRollNumber();
+  }
+}
