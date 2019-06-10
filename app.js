@@ -75,3 +75,19 @@ const resetRollNumber = () => {
     totalDiv.textContent = 'Total: ' + totalSum
   }
 };
+
+const scoreOnes = () => {
+  let onesDiv = document.getElementById('ones');
+  if (onesDiv.textContent === '') {
+    let dice = document.getElementsByClassName('die');
+    let scoreArray = [];
+    for (let die of dice) {
+      if (die.textContent == '1') {
+        scoreArray.push(die.textContent)
+      }
+    }
+    let sum = scoreArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
+    onesDiv.textContent = sum;
+    resetRollNumber();
+  }
+};
