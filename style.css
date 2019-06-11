@@ -86,7 +86,7 @@ button {
 
 #card {
   border: 2px solid black;
-  width: 272px;
+  min-width: 272px;
   background-color: white;
 }
 
@@ -102,4 +102,21 @@ button {
   width: fit-content;
   padding: 5px;
   border: 2px solid black;
+  height: fit-content;
+}
+
+#page-wrap {
+  display: flex;
+}
+
+@media (max-width: 630px) {
+  #page-wrap {
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-device-width: 480px) {
+  #page-wrap {
+    flex-direction: column;
+  }
 }
