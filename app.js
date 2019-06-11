@@ -368,14 +368,49 @@ const scoreBonus = () => {
         scoreArray.push(diceArray[i]);
       }
     }
-    if (scoreArray.length === 4 && scoreArray[0] !== '0') {
+    if (scoreArray.length === 4 && scoreArray[0] !== '') {
       bonusDiv.textContent = '100';
     } else {
       bonusDiv.textContent = '0';
     }
     resetRollNumber();
+  } else if (bonusDiv.textContent === '100') {
+    const dice = document.getElementsByClassName('die');
+    const diceArray = [];
+    for (const die of dice) {
+      const child = (die.firstElementChild || die.firstChild)
+      diceArray.push(child.id);
+    }
+    const scoreArray = [];
+    for (let i = 1; i < (diceArray.length + 1); i++) {
+      if (diceArray[0] === diceArray[i]) {
+        scoreArray.push(diceArray[i]);
+      }
+    }
+    if (scoreArray.length === 4 && scoreArray[0] !== '') {
+      bonusDiv.textContent = '200';
+    }
+    resetRollNumber()
+  } else if (bonusDiv.textContent === '200') {
+    const dice = document.getElementsByClassName('die');
+    const diceArray = [];
+    for (const die of dice) {
+      const child = (die.firstElementChild || die.firstChild)
+      diceArray.push(child.id);
+    }
+    const scoreArray = [];
+    for (let i = 1; i < (diceArray.length + 1); i++) {
+      if (diceArray[0] === diceArray[i]) {
+        scoreArray.push(diceArray[i]);
+      }
+    }
+    if (scoreArray.length === 4 && scoreArray[0] !== '') {
+      bonusDiv.textContent = '300';
+    }
+    resetRollNumber();
   }
 };
+
 
 const reset = () => {
   const dice = document.getElementsByClassName('die');

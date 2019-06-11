@@ -4,6 +4,11 @@ body {
   /* font-family: 'Alegreya Sans', sans-serif; */
   /* font-family: 'Exo', sans-serif; */
   /* background-image: linear-gradient(red, yellow); */
+  /* text-align: center; */
+}
+
+body * {
+  /* display: inline-block; */
 }
 
 button {
