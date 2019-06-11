@@ -46,6 +46,21 @@ const resetRollNumber = () => {
     die.style.border = '1px solid black;';
     die.className = 'die';
   }
+  const upperSectionScore = document.getElementsByClassName('top-scores');
+  const totalTopSection = document.querySelector('#upper-section');
+  const upperArray = [];
+  for (let scores of upperSectionScore) {
+    if (scores.textContent !== '') {
+      upperArray.push(scores.textContent);
+    }
+  }
+  if (upperArray.length === 6 && totalTopSection.textContent === '') {
+    const upperSum = upperArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
+    totalTopSection.textContent = upperSum;
+    if (upperSum >= 63) {
+      totalTopSection.textContent += ' + 35 = ' + (upperSum + 35);
+    }
+  }
   if (turnNumber === 13) {
     // game over
     const scoreSpans = document.getElementsByClassName('score-span');
@@ -56,23 +71,23 @@ const resetRollNumber = () => {
       }
       totalScoresArray.push(span.textContent);
     }
-    const totalSum = totalScoresArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
+    let totalSum = totalScoresArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
 
     const topSection = document.getElementsByClassName('top-scores');
-    let topSectionArray = []
+    const topSectionArray = [];
     for (let score of topSection) {
       topSectionArray.push(score.textContent);
     }
     const topSum = topSectionArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
 
     if (topSum >= 63) {
-      totalSum = totalSum + 35;
+      totalSum += 35;
     }
 
     const rollBtn = document.querySelector('#roll-btn');
     rollBtn.disabled = true;
     const totalDiv = document.querySelector('#total');
-    totalDiv.textContent = 'Total: ' + totalSum;
+    totalDiv.textContent = totalSum;
   }
 };
 
@@ -346,7 +361,9 @@ const reset = () => {
   const rollSpan = document.querySelector('#rollSpan');
   rollSpan.textContent = rollNumber;
   const totalDiv = document.querySelector('#total');
-  totalDiv.textContent = 'Total: ';
+  totalDiv.textContent = '';
+  const upperDiv = document.querySelector('#upper-section');
+  upperDiv.textContent = '';
   const rollBtn = document.querySelector('#roll-btn');
   rollBtn.disabled = false;
 };
