@@ -7,8 +7,8 @@
   <title>Let's Play | Yahtzee!</title>
   <link rel="icon" type="image/png" href="yahtzeeDice.png">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:900i|Changa+One:400i|Exo:900i|Raleway:900i"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Raleway:900i" rel="stylesheet">
+
   <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
   <script src="app.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
@@ -55,7 +55,6 @@
       </div>
     </div>
     <div id='controls'>
-      <div id='roll-wrap'>Roll: <span id='rollSpan'>0</span></div>
       <div id='dice'>
         <button onclick='lockDie("die1")' id='die1' class='die'></button>
         <button onclick='lockDie("die2")' id='die2' class='die'></button>
@@ -64,6 +63,7 @@
         <button onclick='lockDie("die5")' id='die5' class='die'></button>
         <button onclick='rollAll()' id='roll-btn'>Roll Dice</button>
       </div>
+      <div id='roll-wrap'>Roll: <span id='rollSpan'>0</span></div>
       <button onclick='reset()' id='reset-btn'>New Game</button>
     </div>
   </div>
