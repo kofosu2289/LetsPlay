@@ -4,6 +4,9 @@
 
 #scorecard {
   display: flex;
+  flex-direction: row;
+  flex-flow: row wrap;
+  width: 425px;
 }
 
 .die {
@@ -24,6 +27,8 @@
 .score-div {
   padding: 5px;
   margin-bottom: 2px;
+  width: 200px;
+  border: 1px solid black;
 }
 
 #title {
@@ -32,4 +37,19 @@
 
 #total {
   margin-left: 50px;
+}
+
+#botttom-score {
+  display: flex;
+  flex-direction: row;
+  flex-flow: row wrap;
+  width: 425px;
+}
+
+#reset-btn {
+  margin-top: 5px;
+}
+
+#roll-div {
+  margin-top: 5px;
 }
