@@ -22,28 +22,28 @@ const rollAll = () => {
 };
 
 const lockDie = (id) => {
-  let die = document.getElementById(id);
+  const die = document.getElementById(id);
   if (die.textContent !== '0') {
     if (die.className === 'die active') {
       die.style.border = '1px solid black;';
       die.className = 'die';
     } else {
       die.style.border = '1px solid yellow;';
-      die.className += 'active';
+      die.className += ' active';
     }
   }
 };
 
 const resetRollNumber = () => {
   rollNumber = 0;
-  turnNumber++;
+  turnNumber += 1;
   console.log(turnNumber);
   const rollSpan = document.querySelector('#rollSpan');
   rollSpan.textContent = rollNumber;
   const dice = document.getElementsByClassName('die');
   for (let die of dice) {
     die.textContent = '0';
-    die.style = 'border: 1px solid black;';
+    die.style.border = '1px solid black;';
     die.className = 'die';
   }
   if (turnNumber === 13) {
@@ -56,124 +56,44 @@ const resetRollNumber = () => {
       }
       totalScoresArray.push(span.textContent);
     }
-    let totalSum = totalScoresArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
+    const totalSum = totalScoresArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
 
     const topSection = document.getElementsByClassName('top-scores');
-    const topSectionArray = [];
+    let topSectionArray = []
     for (let score of topSection) {
       topSectionArray.push(score.textContent);
     }
     const topSum = topSectionArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
 
     if (topSum >= 63) {
-      totalSum += 35;
+      totalSum = totalSum + 35;
     }
 
-    const rollBtn = document.getElementById('roll-btn');
+    const rollBtn = document.querySelector('#roll-btn');
     rollBtn.disabled = true;
-    const totalDiv = document.getElementById('total');
+    const totalDiv = document.querySelector('#total');
     totalDiv.textContent = 'Total: ' + totalSum;
   }
 };
 
-const scoreOnes = () => {
-  const onesDiv = document.getElementById('ones');
-  if (onesDiv.textContent === '') {
+const scoreTop = (divID, number) => {
+  const div = document.getElementById(divID);
+  if (div.textContent === '') {
     const dice = document.getElementsByClassName('die');
     const scoreArray = [];
     for (let die of dice) {
-      if (die.textContent === '1') {
+      if (die.textContent == number) {
         scoreArray.push(die.textContent);
       }
     }
     const sum = scoreArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
-    onesDiv.textContent = sum;
-    resetRollNumber();
-  }
-};
-
-const scoreTwos = () => {
-  const twosDiv = document.getElementById('twos');
-  if (twosDiv.textContent === '') {
-    const dice = document.getElementsByClassName('die');
-    const scoreArray = [];
-    for (let die of dice) {
-      if (die.textContent === '2') {
-        scoreArray.push(die.textContent);
-      }
-    }
-    const sum = scoreArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
-    twosDiv.textContent = sum;
-    resetRollNumber();
-  }
-};
-
-const scoreThrees = () => {
-  const threesDiv = document.getElementById('threes');
-  if (threesDiv.textContent === '') {
-    const dice = document.getElementsByClassName('die');
-    const scoreArray = [];
-    for (let die of dice) {
-      if (die.textContent === '3') {
-        scoreArray.push(die.textContent);
-      }
-    }
-    const sum = scoreArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
-    threesDiv.textContent = sum;
-    resetRollNumber();
-  }
-};
-
-const scoreFours = () => {
-  const foursDiv = document.getElementById('fours');
-  if (foursDiv.textContent === '') {
-    const dice = document.getElementsByClassName('die');
-    const scoreArray = [];
-    for (let die of dice) {
-      if (die.textContent === '4') {
-        scoreArray.push(die.textContent);
-      }
-    }
-    const sum = scoreArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
-    foursDiv.textContent = sum;
-    resetRollNumber();
-  }
-};
-
-const scoreFives = () => {
-  const fivesDiv = document.getElementById('fives');
-  if (fivesDiv.textContent === '') {
-    const dice = document.getElementsByClassName('die');
-    const scoreArray = [];
-    for (let die of dice) {
-      if (die.textContent === '5') {
-        scoreArray.push(die.textContent);
-      }
-    }
-    const sum = scoreArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
-    fivesDiv.textContent = sum;
-    resetRollNumber();
-  }
-};
-
-const scoreSixes = () => {
-  const sixesDiv = document.getElementById('sixes');
-  if (sixesDiv.textContent === '') {
-    const dice = document.getElementsByClassName('die');
-    const scoreArray = [];
-    for (let die of dice) {
-      if (die.textContent === '6') {
-        scoreArray.push(die.textContent);
-      }
-    }
-    const sum = scoreArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
-    sixesDiv.textContent = sum;
+    div.textContent = sum;
     resetRollNumber();
   }
 };
 
 const scoreThreeKind = () => {
-  const threeKind = document.getElementById('three-kind');
+  const threeKind = document.querySelector('#three-kind');
   if (threeKind.textContent === '') {
     const dice = document.getElementsByClassName('die');
     const diceArray = [];
@@ -212,7 +132,7 @@ const scoreThreeKind = () => {
 };
 
 const scoreFourKind = () => {
-  const fourKind = document.getElementById('four-kind');
+  const fourKind = document.querySelector('#four-kind');
   if (fourKind.textContent === '') {
     const dice = document.getElementsByClassName('die');
     const diceArray = [];
@@ -245,9 +165,8 @@ const scoreFourKind = () => {
   }
 };
 
-
 const scoreFullHouse = () => {
-  const fullHouse = document.getElementById('full-house');
+  const fullHouse = document.querySelector('#full-house');
   if (fullHouse.textContent === '') {
     const dice = document.getElementsByClassName('die');
     const diceArray = [];
@@ -270,8 +189,8 @@ const scoreFullHouse = () => {
         lastArray.push(number);
       }
     }
-    if ((firstArray.length === 3 && lastArray.length === 2) ||
-      (firstArray.length === 2 && lastArray.length === 3)) {
+    if ((firstArray.length === 3 &&
+        lastArray.length === 2) || (firstArray.length === 2 && lastArray.length === 3)) {
       fullHouse.textContent = '25';
     } else {
       fullHouse.textContent = '0';
@@ -280,9 +199,8 @@ const scoreFullHouse = () => {
   }
 };
 
-
 const scoreSmallStraight = () => {
-  const smallStraight = document.getElementById('small-straight');
+  const smallStraight = document.querySelector('#small-straight');
   if (smallStraight.textContent === '') {
     const dice = document.getElementsByClassName('die');
     const diceArray = [];
@@ -290,10 +208,13 @@ const scoreSmallStraight = () => {
       diceArray.push(die.textContent);
     }
     const sortedArray = diceArray.sort((a, b) => parseInt(a) - parseInt(b));
-    const uniqueItems = [...new Set(sortedArray)]
+    const uniqueItems = [...new Set(sortedArray)];
     if (uniqueItems.length === 5) {
       const firstFour = sortedArray.slice(0, 4).join('');
       const lastFour = sortedArray.slice(1, 5).join('');
+
+      const smallStraight = document.querySelector('#small-straight');
+
       if (
         firstFour === '1234' ||
         firstFour === '2345' ||
@@ -308,8 +229,7 @@ const scoreSmallStraight = () => {
         smallStraight.textContent = '0';
       }
     } else if (uniqueItems.length === 4) {
-      let joinedUnique = uniqueItems.join('');
-
+      const joinedUnique = uniqueItems.join('');
       if (
         joinedUnique === '1234' ||
         joinedUnique === '2345' ||
@@ -326,13 +246,12 @@ const scoreSmallStraight = () => {
   }
 };
 
-
 const scoreLargeStraight = () => {
   const winningArrays = [
     [1, 2, 3, 4, 5],
     [2, 3, 4, 5, 6],
   ];
-  const largeStraight = document.getElementById('large-straight');
+  const largeStraight = document.querySelector('#large-straight');
   if (largeStraight.textContent === '') {
     const dice = document.getElementsByClassName('die');
     const diceArray = [];
@@ -340,7 +259,8 @@ const scoreLargeStraight = () => {
       diceArray.push(die.textContent);
     }
     const sortedArray = diceArray.sort((a, b) => parseInt(a) - parseInt(b));
-    if (winningArrays[0].join('') === sortedArray.join('') || winningArrays[1].join('') === sortedArray.join('')) {
+    if (winningArrays[0].join('') === sortedArray.join('') ||
+      winningArrays[1].join('') === sortedArray.join('')) {
       largeStraight.textContent = '40';
     } else {
       largeStraight.textContent = '0';
@@ -370,13 +290,13 @@ const scoreYahtzee = () => {
     }
     resetRollNumber();
   }
-};
+}
 
 const scoreChance = () => {
   const chanceDiv = document.querySelector('#chance');
   if (chanceDiv.textContent === '') {
     const dice = document.getElementsByClassName('die');
-    const diceArray = [];
+    let diceArray = [];
     for (let die of dice) {
       diceArray.push(die.textContent);
     }
@@ -385,7 +305,6 @@ const scoreChance = () => {
     resetRollNumber();
   }
 };
-
 
 const scoreBonus = () => {
   const bonusDiv = document.querySelector('#bonus');
@@ -431,39 +350,3 @@ const reset = () => {
   const rollBtn = document.querySelector('#roll-btn');
   rollBtn.disabled = false;
 };
-
-
-document.querySelector('.ones').addEventListener('click', scoreOnes);
-document.querySelector('.twos').addEventListener('click', scoreTwos);
-document.querySelector('.threes').addEventListener('click', scoreThrees);
-document.querySelector('.fours').addEventListener('click', scoreFours);
-document.querySelector('.fives').addEventListener('click', scoreFives);
-document.querySelector('.sixes').addEventListener('click', scoreSixes);
-
-document.querySelector('.three-kind').addEventListener('click', scoreThreeKind);
-document.querySelector('.four-kind').addEventListener('click', scoreFourKind);
-document.querySelector('.full-house').addEventListener('click', scoreFullHouse);
-document.querySelector('.small-straight').addEventListener('click', scoreSmallStraight);
-document.querySelector('.large-straight').addEventListener('click', scoreLargeStraight);
-document.querySelector('.yahtzee').addEventListener('click', scoreYahtzee);
-document.querySelector('.chance').addEventListener('click', scoreChance);
-document.querySelector('.bonus').addEventListener('click', scoreBonus);
-
-document.querySelector('#dice').childNodes.forEach((child, i) => {
-  if (i % 2 !== 0) {
-    child.addEventListener('click', lockDie(child.id));
-  }
-});
-
-document.querySelector('#roll-btn').addEventListener('click', rollAll);
-document.querySelector('#reset-btn').addEventListener('click', reset);
-
-document.querySelector('#ones').addEventListener('click', scoreOnes);
-document.querySelector('#twos').addEventListener('click', scoreTwos);
-document.querySelector('#threes').addEventListener('click', scoreThrees);
-document.querySelector('#fours').addEventListener('click', scoreFours);
-document.querySelector('#fives').addEventListener('click', scoreFives);
-document.querySelector('#sixes').addEventListener('click', scoreSixes);
-
-
-
