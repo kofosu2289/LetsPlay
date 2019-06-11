@@ -51,6 +51,11 @@ button {
   border: 1px solid black;
   border-right: none;
   text-align: center;
+  -moz-user-select     : none;
+  -khtml-user-select   : none;
+  -webkit-user-select  : none;
+  -o-user-select       : none;
+  user-select          : none;
 }
 
 #top-section:nth-child(2) {
@@ -76,9 +81,10 @@ button {
 }
 
 #roll-wrap {
-  margin-top: 5px;
+  margin-top: 10px;
   float: right;
   text-align: center;
+  width: 80px;
 }
 
 #rollSpan {
