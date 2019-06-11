@@ -11,6 +11,8 @@
     rel="stylesheet">
   <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
   <script src="app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+  <script src="sweetalert2.all.min.js"></script>
 </head>
 
 <body>
@@ -53,17 +55,19 @@
 
   </div>
   <div id='controls'>
+    <div id='roll-wrap'>Roll: <span id='rollSpan'>0</span></div>
     <div id='dice'>
-      <button onclick='lockDie("die1")' id='die1' class='die'>0</button>
-      <button onclick='lockDie("die2")' id='die2' class='die'>0</button>
-      <button onclick='lockDie("die3")' id='die3' class='die'>0</button>
-      <button onclick='lockDie("die4")' id='die4' class='die'>0</button>
-      <button onclick='lockDie("die5")' id='die5' class='die'>0</button>
+      <button onclick='lockDie("die1")' id='die1' class='die'></button>
+      <button onclick='lockDie("die2")' id='die2' class='die'></button>
+      <button onclick='lockDie("die3")' id='die3' class='die'></button>
+      <button onclick='lockDie("die4")' id='die4' class='die'></button>
+      <button onclick='lockDie("die5")' id='die5' class='die'></button>
       <button onclick='rollAll()' id='roll-btn'>Roll Dice</button>
     </div>
-    <div id='roll-total-wrap'>Roll: <span id='rollSpan'>0</span><button onclick='reset()' id='reset-btn'>New
-        Game</button>
-    </div>
+    <button onclick='reset()' id='reset-btn'>New
+      Game</button>
+
+  </div>
   </div>
 </body>
 

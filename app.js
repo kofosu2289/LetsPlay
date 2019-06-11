@@ -2,14 +2,29 @@ let turnNumber = 0;
 let rollNumber = 0;
 
 const updateDice = (id, roll) => {
-  const dieDiv = document.getElementById(id);
-  dieDiv.textContent = roll;
+  const dieDiv = document.querySelector(`#${id}`);
+  if (roll === 1) {
+    dieDiv.innerHTML = '<img style="width: 34px; z-index: 2;" src="diefaces1.png"/>';
+  } else if (roll === 2) {
+    dieDiv.innerHTML = '<img style="width: 34px; z-index: 2;" src="diefaces2.png"/>';
+  } else if (roll === 3) {
+    dieDiv.innerHTML = '<img style="width: 34px; z-index: 2;" src="diefaces3.png"/>';
+  } else if (roll === 4) {
+    dieDiv.innerHTML = '<img style="width: 34px; z-index: 2;" src="diefaces4.png"/>';
+  } else if (roll === 5) {
+    dieDiv.innerHTML = '<img style="width: 34px; z-index: 2;" src="diefaces5.png"/>';
+  } else if (roll === 6) {
+    dieDiv.innerHTML = '<img style="width: 34px; z-index: 2;" src="diefaces6.png"/>';
+  }
+  dieDiv.style = 'background-image: url()';
 };
 
 const rollAll = () => {
   if (rollNumber < 3) {
+    const audio = new Audio('diceRoll.mp3');
+    audio.play();
     const dice = document.getElementsByClassName('die');
-    for (let die of dice) {
+    for (const die of dice) {
       if (die.className !== 'die active') {
         const roll = (Math.floor((Math.random() * 6) + 1));
         updateDice(die.id, roll);
@@ -22,13 +37,13 @@ const rollAll = () => {
 };
 
 const lockDie = (id) => {
-  const die = document.getElementById(id);
-  if (die.textContent !== '0') {
+  const die = document.querySelector(`#${id}`);
+  if (die.innerHTML !== '') {
     if (die.className === 'die active') {
       die.style.border = '1px solid black;';
       die.className = 'die';
     } else {
-      die.style.border = '1px solid yellow;';
+      die.style.border = '2px solid rgb(0, 0, 209);';
       die.className += ' active';
     }
   }
@@ -41,44 +56,44 @@ const resetRollNumber = () => {
   const rollSpan = document.querySelector('#rollSpan');
   rollSpan.textContent = rollNumber;
   const dice = document.getElementsByClassName('die');
-  for (let die of dice) {
-    die.textContent = '0';
+  for (const die of dice) {
+    die.textContent = '';
     die.style.border = '1px solid black;';
     die.className = 'die';
   }
   const upperSectionScore = document.getElementsByClassName('top-scores');
   const totalTopSection = document.querySelector('#upper-section');
   const upperArray = [];
-  for (let scores of upperSectionScore) {
+  for (const scores of upperSectionScore) {
     if (scores.textContent !== '') {
       upperArray.push(scores.textContent);
     }
   }
   if (upperArray.length === 6 && totalTopSection.textContent === '') {
-    const upperSum = upperArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
+    const upperSum = upperArray.reduce((a, b) => parseInt(a, 10) + parseInt(b, 10), 0);
     totalTopSection.textContent = upperSum;
     if (upperSum >= 63) {
-      totalTopSection.textContent += ' + 35 = ' + (upperSum + 35);
+      totalTopSection.textContent += ` + 35 = ${upperSum + 35}`;
     }
   }
   if (turnNumber === 13) {
     // game over
     const scoreSpans = document.getElementsByClassName('score-span');
     const totalScoresArray = [];
-    for (let span of scoreSpans) {
+    for (const span of scoreSpans) {
       if (span.textContent === '') {
         span.textContent = '0';
       }
       totalScoresArray.push(span.textContent);
     }
-    let totalSum = totalScoresArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
+    let totalSum = totalScoresArray.reduce((a, b) => parseInt(a, 10) + parseInt(b, 10), 0);
 
     const topSection = document.getElementsByClassName('top-scores');
     const topSectionArray = [];
-    for (let score of topSection) {
+    for (const score of topSection) {
       topSectionArray.push(score.textContent);
     }
-    const topSum = topSectionArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
+    const topSum = topSectionArray.reduce((a, b) => parseInt(a, 10) + parseInt(b, 10), 0);
 
     if (topSum >= 63) {
       totalSum += 35;
@@ -88,6 +103,13 @@ const resetRollNumber = () => {
     rollBtn.disabled = true;
     const totalDiv = document.querySelector('#total');
     totalDiv.textContent = totalSum;
+    Swal.fire({
+      title: 'Game Over!',
+      animation: false,
+      customClass: {
+        popup: 'animated tada',
+      }
+    });
   }
 };
 
@@ -96,12 +118,12 @@ const scoreTop = (divID, number) => {
   if (div.textContent === '') {
     const dice = document.getElementsByClassName('die');
     const scoreArray = [];
-    for (let die of dice) {
+    for (const die of dice) {
       if (die.textContent == number) {
         scoreArray.push(die.textContent);
       }
     }
-    const sum = scoreArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
+    const sum = scoreArray.reduce((a, b) => parseInt(a, 10) + parseInt(b, 10), 0);
     div.textContent = sum;
     resetRollNumber();
   }
@@ -112,10 +134,10 @@ const scoreThreeKind = () => {
   if (threeKind.textContent === '') {
     const dice = document.getElementsByClassName('die');
     const diceArray = [];
-    for (let die of dice) {
+    for (const die of dice) {
       diceArray.push(die.textContent);
     }
-    const sortedArray = diceArray.sort((a, b) => parseInt(a) - parseInt(b));
+    const sortedArray = diceArray.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
 
     const first = sortedArray[0];
     const middle = sortedArray[2];
@@ -125,7 +147,7 @@ const scoreThreeKind = () => {
     const middleArray = [];
     const lastArray = [];
 
-    for (let number of sortedArray) {
+    for (const number of sortedArray) {
       if (number === first) {
         firstArray.push(number);
       }
@@ -137,7 +159,7 @@ const scoreThreeKind = () => {
       }
     }
     if (firstArray.length === 3 || middleArray.length === 3 || lastArray.length === 3) {
-      const sum = diceArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
+      const sum = diceArray.reduce((a, b) => parseInt(a, 10) + parseInt(b, 10), 0);
       threeKind.textContent = sum;
     } else {
       threeKind.textContent = '0';
@@ -151,10 +173,10 @@ const scoreFourKind = () => {
   if (fourKind.textContent === '') {
     const dice = document.getElementsByClassName('die');
     const diceArray = [];
-    for (let die of dice) {
+    for (const die of dice) {
       diceArray.push(die.textContent);
     }
-    const sortedArray = diceArray.sort((a, b) => parseInt(a) - parseInt(b));
+    const sortedArray = diceArray.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
 
     const first = sortedArray[0];
     const last = sortedArray[4];
@@ -171,7 +193,7 @@ const scoreFourKind = () => {
       }
     }
     if (firstArray.length >= 4 || lastArray.length >= 4) {
-      const sum = diceArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
+      const sum = diceArray.reduce((a, b) => parseInt(a, 10) + parseInt(b, 10), 0);
       fourKind.textContent = sum;
     } else {
       fourKind.textContent = '0';
@@ -188,7 +210,7 @@ const scoreFullHouse = () => {
     for (let die of dice) {
       diceArray.push(die.textContent);
     }
-    const sortedArray = diceArray.sort((a, b) => parseInt(a) - parseInt(b));
+    const sortedArray = diceArray.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
 
     const first = sortedArray[0];
     const last = sortedArray[4];
@@ -222,7 +244,8 @@ const scoreSmallStraight = () => {
     for (let die of dice) {
       diceArray.push(die.textContent);
     }
-    const sortedArray = diceArray.sort((a, b) => parseInt(a) - parseInt(b));
+    const sortedArray = diceArray.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+    // https://stackoverflow.com/questions/11246758/how-to-get-unique-values-in-an-array
     const uniqueItems = [...new Set(sortedArray)];
     if (uniqueItems.length === 5) {
       const firstFour = sortedArray.slice(0, 4).join('');
@@ -273,7 +296,7 @@ const scoreLargeStraight = () => {
     for (let die of dice) {
       diceArray.push(die.textContent);
     }
-    const sortedArray = diceArray.sort((a, b) => parseInt(a) - parseInt(b));
+    const sortedArray = diceArray.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
     if (winningArrays[0].join('') === sortedArray.join('') ||
       winningArrays[1].join('') === sortedArray.join('')) {
       largeStraight.textContent = '40';
@@ -315,7 +338,7 @@ const scoreChance = () => {
     for (let die of dice) {
       diceArray.push(die.textContent);
     }
-    const sum = diceArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
+    const sum = diceArray.reduce((a, b) => parseInt(a, 10) + parseInt(b, 10), 0);
     chanceDiv.textContent = sum;
     resetRollNumber();
   }
@@ -348,7 +371,7 @@ const scoreBonus = () => {
 const reset = () => {
   const dice = document.getElementsByClassName('die');
   for (let die of dice) {
-    die.textContent = '0';
+    die.textContent = '';
     die.style.border = '1px solid black;';
     die.className = 'die';
   }
