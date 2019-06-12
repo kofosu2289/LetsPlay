@@ -78,7 +78,7 @@ const resetRollNumber = () => {
     die.style = 'border: 2px solid black;';
     die.className = 'die';
   }
-  const upperSectionScore = document.querySelectorAll('.top-scores');
+  const upperSectionScore = document.querySelectorAll('.upper-scores');
   const totalTopSection = document.querySelector('#upper-section');
   const upperArray = [];
   for (const scores of upperSectionScore) {

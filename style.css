@@ -1,9 +1,6 @@
 body {
   font-family: 'Raleway', sans-serif;
-}
-
-body * {
-  /* display: inline-block; */
+  background-color: rgb(122, 29, 0);
 }
 
 button {
@@ -17,15 +14,15 @@ button {
 
 #top-section {
   display: flex;
-  flex-direction: row;
-  flex-flow: row wrap;
+  flex-direction: column;
 }
 
 .die {
-  padding: 0px;
+  padding: 0;
   margin: 5px;
   border: 2px solid black;
   width: 40px;
+  height: 40px;
   background-color: white;
   z-index: 1;
 }
@@ -57,22 +54,28 @@ button {
   border-top: 2px solid black;
 }
 
+#bottom-score {
+  border-top: 2px solid black;
+}
+
 #title {
   font-size: 18px;
   margin: 5px;
   text-align: center;
 }
 
-#botttom-score {
+#bottom-score {
   display: flex;
-  flex-direction: row;
-  flex-flow: row wrap;
+  flex-direction: column;
   width: fit-content;
-  border-top: 2px solid black;
 }
 
 #reset-btn {
-  margin-top: 10px;
+  margin: 10px;
+}
+
+#rollSpan {
+  padding: 2px;
 }
 
 #roll-wrap {
@@ -80,10 +83,6 @@ button {
   float: right;
   text-align: center;
   width: 80px;
-}
-
-#rollSpan {
-  padding: 2px;
 }
 
 #card {
@@ -111,6 +110,12 @@ button {
 }
 
 #page-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.row-wrap {
   display: flex;
 }
 
