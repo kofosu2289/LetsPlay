@@ -1,374 +1,404 @@
+const url = 'http://roll.diceapi.com/json/d6';
 let turnNumber = 0;
 let rollNumber = 0;
 
-function rollAll() {
+// animate.css animation
+document.querySelector('#page-wrap').classList.add('animated', 'bounceInDown');
+
+// change dice images when dice are rolled
+const updateDice = (id, roll) => {
+  const dieDiv = document.querySelector(`#${id}`);
+  switch (roll) {
+    case 1:
+      dieDiv.innerHTML = '<img style="width: 34px; z-index: 2;" id="1" src="diefaces1.png"/>';
+      break;
+    case 2:
+      dieDiv.innerHTML = '<img style="width: 34px; z-index: 2;" id="2" src="diefaces2.png"/>';
+      break;
+    case 3:
+      dieDiv.innerHTML = '<img style="width: 34px; z-index: 2;" id="3" src="diefaces3.png"/>';
+      break;
+    case 4:
+      dieDiv.innerHTML = '<img style="width: 34px; z-index: 2;" id="4" src="diefaces4.png"/>';
+      break;
+    case 5:
+      dieDiv.innerHTML = '<img style="width: 34px; z-index: 2;" id="5" src="diefaces5.png"/>';
+      break;
+    case 6:
+      dieDiv.innerHTML = '<img style="width: 34px; z-index: 2;" id="6" src="diefaces6.png"/>';
+      break;
+  }
+};
+
+// roll all available dice
+const rollAll = () => {
   if (rollNumber < 3) {
-    const audio = new Audio();
-    audio.play('diceRoll.mp3');
-    let dice = document.getElementsByClassName('die');
-    for (let die of dice) {
-      if (die.className !== 'die active') {
-        let roll = (Math.floor((Math.random() * 6) + 1));
-        updateDice(die.id, roll)
+    const diceRoll = document.createElement('audio');
+    diceRoll.src = 'diceRoll.mp3';
+    diceRoll.play();
+    setTimeout(async () => {
+      const dice = document.querySelectorAll('.die');
+      for (const die of dice) {
+        if (die.className !== 'die active') {
+          const response = await axios.get(url);
+          const result = response.data.dice[0];
+          const roll = result.value;
+          updateDice(die.id, roll);
+        }
       }
-    }
-    let rollSpan = document.getElementById('rollSpan')
-    rollNumber++
-    rollSpan.textContent = rollNumber
+      const rollSpan = document.getElementById('rollSpan');
+      rollNumber += 1;
+      rollSpan.textContent = rollNumber;
+    }, 1000);
   }
-}
+};
 
-function updateDice(id, roll) {
-  let dieDiv = document.getElementById(id);
-  if (roll == 1) {
-    dieDiv.innerHTML = '<img style="width: 34px; z-index: 2;" id="1" src="diefaces1.png"/>';
-  } else if (roll == 2) {
-    dieDiv.innerHTML = '<img style="width: 34px; z-index: 2;" id="2" src="diefaces2.png"/>';
-  } else if (roll == 3) {
-    dieDiv.innerHTML = '<img style="width: 34px; z-index: 2;" id="3" src="diefaces3.png"/>';
-  } else if (roll == 4) {
-    dieDiv.innerHTML = '<img style="width: 34px; z-index: 2;" id="4" src="diefaces4.png"/>';
-  } else if (roll == 5) {
-    dieDiv.innerHTML = '<img style="width: 34px; z-index: 2;" id="5" src="diefaces5.png"/>';
-  } else if (roll == 6) {
-    dieDiv.innerHTML = '<img style="width: 34px; z-index: 2;" id="6" src="diefaces6.png"/>';
-  }
-}
-
-function lockDie(id) {
-  let die = document.getElementById(id);
+// hold selected dice
+const lockDie = (id) => {
+  const die = document.querySelector(`#${id}`);
   if (die.innerHTML !== '') {
     if (die.className === 'die active') {
-      die.style = 'border: 1px solid black;'
-      die.className = 'die'
+      die.style = 'border: 1px solid black;';
+      die.className = 'die';
     } else {
-      die.style = 'border: 2px solid rgb(0, 0, 209);'
-      die.className += ' active'
+      die.style = 'border: 2px solid rgb(0, 0, 209);';
+      die.className += ' active';
     }
   }
-}
+};
 
-function resetRollNumber() {
+const resetRollNumber = () => {
   rollNumber = 0;
-  turnNumber++
-
-  let rollSpan = document.getElementById('rollSpan')
-  rollSpan.textContent = rollNumber
-  let dice = document.getElementsByClassName('die');
-  for (let die of dice) {
-    die.innerHTML = ''
-    die.style = 'border: 2px solid black;'
-    die.className = 'die'
+  turnNumber += 1;
+  const rollSpan = document.getElementById('rollSpan');
+  rollSpan.textContent = rollNumber;
+  const dice = document.querySelectorAll('.die');
+  for (const die of dice) {
+    die.innerHTML = '';
+    die.style = 'border: 2px solid black;';
+    die.className = 'die';
   }
-  let upperSectionScore = document.getElementsByClassName('top-scores')
-  let totalTopSection = document.getElementById('upper-section')
-  let upperArray = []
-  for (let scores of upperSectionScore) {
+  const upperSectionScore = document.querySelectorAll('.top-scores');
+  const totalTopSection = document.querySelector('#upper-section');
+  const upperArray = [];
+  for (const scores of upperSectionScore) {
     if (scores.textContent !== '') {
-      upperArray.push(scores.textContent)
+      upperArray.push(scores.textContent);
     }
   }
   if (upperArray.length === 6 && totalTopSection.textContent === '') {
-    let upperSum = upperArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
-    totalTopSection.textContent = upperSum
+    const upperSum = upperArray.reduce((a, b) => parseInt(a, 10) + parseInt(b, 10), 0);
+    totalTopSection.textContent = upperSum;
     if (upperSum >= 63) {
-      totalTopSection.textContent += ' + 35 = ' + (upperSum + 35)
+      totalTopSection.textContent += ` + 35 = ${upperSum + 35}`;
     }
   }
   if (turnNumber === 13) {
     // game over
-    let scoreSpans = document.getElementsByClassName('score-span');
-    let totalScoresArray = []
-    for (let span of scoreSpans) {
+    const scoreSpans = document.querySelectorAll('.score-span');
+    const totalScoresArray = [];
+    for (const span of scoreSpans) {
       if (span.textContent === '') {
-        span.textContent = '0'
+        span.textContent = '0';
       }
-      totalScoresArray.push(span.textContent)
+      totalScoresArray.push(span.textContent);
     }
-    let totalSum = totalScoresArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
+    let totalSum = totalScoresArray.reduce((a, b) => parseInt(a, 10) + parseInt(b, 10), 0);
 
-    let topSection = document.getElementsByClassName('top-scores')
-    let topSectionArray = []
-    for (let score of topSection) {
-      topSectionArray.push(score.textContent)
+    const topSection = document.querySelectorAll('.top-scores');
+    const topSectionArray = [];
+    for (const score of topSection) {
+      topSectionArray.push(score.textContent);
     }
-    let topSum = topSectionArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
+    const topSum = topSectionArray.reduce((a, b) => parseInt(a, 10) + parseInt(b, 10), 0);
 
     if (topSum >= 63) {
-      totalSum = totalSum + 35
+      totalSum += 35;
     }
 
-    let rollBtn = document.getElementById('roll-btn')
-    rollBtn.disabled = true
-    let totalDiv = document.getElementById('total')
-    totalDiv.textContent = totalSum
-    Swal.fire({
-      title: 'Game Over!',
-      animation: false,
-      customClass: {
-        popup: 'animated zoomIn',
-      }
-    });
-  }
-}
+    const rollBtn = document.querySelector('#roll-btn');
+    rollBtn.disabled = true;
+    const totalDiv = document.querySelector('#total');
+    totalDiv.textContent = totalSum;
 
-function scoreTop(divID, number) {
-  let div = document.getElementById(divID);
+    setTimeout(() => {
+      Swal.fire({
+        title: 'Game Over!',
+        animation: false,
+        customClass: {
+          popup: 'animated zoomIn',
+        },
+      });
+
+      document.querySelector('.swal2-confirm').addEventListener('click', () => {
+        document.location.reload();
+      });
+    }, 750);
+  }
+};
+
+const scoreTop = (divID, number) => {
+  const div = document.querySelector(`#${divID}`);
   if (div.textContent === '' && rollNumber > 0) {
-    let sortedDiceArray = sortDiceArray(number)
-    let sum = sortedDiceArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
-    div.textContent = sum
-    resetRollNumber()
+    const sortedDiceArray = sortDiceArray(number);
+    const sum = sortedDiceArray.reduce((a, b) => parseInt(a, 10) + parseInt(b, 10), 0);
+    div.textContent = sum;
+    resetRollNumber();
   }
-}
+};
 
-function scoreThreeKind() {
-  let threeKind = document.getElementById('three-kind')
+const scoreThreeKind = () => {
+  const threeKind = document.querySelector('#three-kind');
   if (threeKind.textContent === '' && rollNumber > 0) {
-    let sortedDiceArray = sortDiceArray('none')
+    const sortedDiceArray = sortDiceArray('none');
 
-    let first = sortedDiceArray[0]
-    let middle = sortedDiceArray[2]
-    let last = sortedDiceArray[4]
+    const first = sortedDiceArray[0];
+    const middle = sortedDiceArray[2];
+    const last = sortedDiceArray[4];
 
-    let firstArray = []
-    let middleArray = []
-    let lastArray = []
+    const firstArray = [];
+    const middleArray = [];
+    const lastArray = [];
 
-    for (let number of sortedDiceArray) {
-      if (number === first) {
-        firstArray.push(number)
-      }
-      if (number === middle) {
-        middleArray.push(number)
-      }
-      if (number === last) {
-        lastArray.push(number)
+    for (const number of sortedDiceArray) {
+      switch (number) {
+        case first:
+          firstArray.push(number);
+          break;
+        case middle:
+          middleArray.push(number);
+          break;
+        case last:
+          lastArray.push(number);
+          break;
       }
     }
     if (firstArray.length >= 3 || middleArray.length >= 3 || lastArray.length >= 3) {
-      let sum = sortedDiceArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
-      threeKind.textContent = sum
+      const sum = sortedDiceArray.reduce((a, b) => parseInt(a, 10) + parseInt(b, 10), 0);
+      threeKind.textContent = sum;
     } else {
-      threeKind.textContent = '0'
+      threeKind.textContent = '0';
     }
-    resetRollNumber()
+    resetRollNumber();
   }
-}
+};
 
-function scoreFourKind() {
-  let fourKind = document.getElementById('four-kind')
+const scoreFourKind = () => {
+  const fourKind = document.querySelector('#four-kind');
   if (fourKind.textContent === '' && rollNumber > 0) {
-    let sortedDiceArray = sortDiceArray('none')
+    const sortedDiceArray = sortDiceArray('none');
 
-    let first = sortedDiceArray[0]
-    let last = sortedDiceArray[4]
+    const first = sortedDiceArray[0];
+    const last = sortedDiceArray[4];
 
-    let firstArray = []
-    let lastArray = []
+    const firstArray = [];
+    const lastArray = [];
 
-    for (let number of sortedDiceArray) {
-      if (number === first) {
-        firstArray.push(number)
-      }
-      if (number === last) {
-        lastArray.push(number)
+    for (const number of sortedDiceArray) {
+      switch (number) {
+        case first:
+          firstArray.push(number);
+          break;
+        case last:
+          lastArray.push(number);
+          break;
       }
     }
     if (firstArray.length >= 4 || lastArray.length >= 4) {
-      let sum = sortedDiceArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
-      fourKind.textContent = sum
+      const sum = sortedDiceArray.reduce((a, b) => parseInt(a, 10) + parseInt(b, 10), 0);
+      fourKind.textContent = sum;
     } else {
-      fourKind.textContent = '0'
+      fourKind.textContent = '0';
     }
-    resetRollNumber()
+    resetRollNumber();
   }
-}
+};
 
-function scoreFullHouse() {
-  let fullHouse = document.getElementById('full-house')
+const scoreFullHouse = () => {
+  const fullHouse = document.querySelector('#full-house');
   if (fullHouse.textContent === '' && rollNumber > 0) {
-    let sortedDiceArray = sortDiceArray('none')
+    const sortedDiceArray = sortDiceArray('none');
 
-    let first = sortedDiceArray[0]
-    let last = sortedDiceArray[4]
+    const first = sortedDiceArray[0];
+    const last = sortedDiceArray[4];
 
-    let firstArray = []
-    let lastArray = []
+    const firstArray = [];
+    const lastArray = [];
 
-    for (let number of sortedDiceArray) {
-      if (number === first) {
-        firstArray.push(number)
-      }
-      if (number === last) {
-        lastArray.push(number)
+    for (const number of sortedDiceArray) {
+      switch (number) {
+        case first:
+          firstArray.push(number);
+          break;
+        case last:
+          lastArray.push(number);
+          break;
       }
     }
     if ((firstArray.length === 3 && lastArray.length === 2) || (firstArray.length === 2 && lastArray.length === 3)) {
-      fullHouse.textContent = '25'
+      fullHouse.textContent = '25';
     } else {
-      fullHouse.textContent = '0'
+      fullHouse.textContent = '0';
     }
-    resetRollNumber()
+    resetRollNumber();
   }
-}
+};
 
-function scoreSmallStraight() {
-  let smallStraight = document.getElementById('small-straight')
+const scoreSmallStraight = () => {
+  const smallStraight = document.querySelector('#small-straight');
   if (smallStraight.textContent === '' && rollNumber > 0) {
-    let sortedDiceArray = sortDiceArray('none')
-    let uniqueItems = [...new Set(sortedDiceArray)]
+    const sortedDiceArray = sortDiceArray('none');
+    const uniqueItems = [...new Set(sortedDiceArray)];
 
-    if (uniqueItems.length === 5) {
-      let firstFour = sortedDiceArray.slice(0, 4).join('')
-      let lastFour = sortedDiceArray.slice(1, 5).join('')
+    if (uniqueItems.length === 1) {
+      const firstFour = sortedDiceArray.slice(0, 4).join('');
+      const lastFour = sortedDiceArray.slice(1, 5).join('');
 
-      let smallStraight = document.getElementById('small-straight')
+      const smallStraight = document.getElementById('small-straight');
 
       if (
-        firstFour == '1234' ||
-        firstFour == '2345' ||
-        firstFour == '3456' ||
-        lastFour == '1234' ||
-        lastFour == '2345' ||
-        lastFour == '3456'
+        firstFour === '1234' ||
+        firstFour === '2345' ||
+        firstFour === '3456' ||
+        lastFour === '1234' ||
+        lastFour === '2345' ||
+        lastFour === '3456'
       ) {
-        smallStraight.textContent = '30'
+        smallStraight.textContent = '30';
       } else {
-        smallStraight.textContent = '0'
+        smallStraight.textContent = '0';
       }
-    } else if (uniqueItems.length === 4) {
-      let joinedUnique = uniqueItems.join('')
+    } else if (uniqueItems.length === 1) {
+      const joinedUnique = uniqueItems.join('');
 
       if (
-        joinedUnique == '1234' ||
-        joinedUnique == '2345' ||
-        joinedUnique == '3456'
+        joinedUnique === '1234' ||
+        joinedUnique === '2345' ||
+        joinedUnique === '3456'
       ) {
-        smallStraight.textContent = '30'
+        smallStraight.textContent = '30';
       } else {
-        smallStraight.textContent = '0'
+        smallStraight.textContent = '0';
       }
     } else {
-      smallStraight.textContent = '0'
+      smallStraight.textContent = '0';
     }
-    resetRollNumber()
+    resetRollNumber();
   }
-}
+};
 
-function scoreLargeStraight() {
+const scoreLargeStraight = () => {
   const winningArrays = [
     [1, 2, 3, 4, 5],
-    [2, 3, 4, 5, 6]
-  ]
-  let largeStraight = document.getElementById('large-straight')
+    [2, 3, 4, 5, 6],
+  ];
+  const largeStraight = document.querySelector('#large-straight');
   if (largeStraight.textContent === '' && rollNumber > 0) {
-    let sortedDiceArray = sortDiceArray('none')
+    const sortedDiceArray = sortDiceArray('none');
     if (winningArrays[0].join('') === sortedDiceArray.join('') || winningArrays[1].join('') === sortedDiceArray.join('')) {
-      largeStraight.textContent = '40'
+      largeStraight.textContent = '40';
     } else {
-      largeStraight.textContent = '0'
+      largeStraight.textContent = '0';
     }
-    resetRollNumber()
+    resetRollNumber();
   }
-}
+};
 
-function scoreYahtzee() {
-  let yahtzee = document.getElementById('yahtzee')
+const scoreYahtzee = () => {
+  const yahtzee = document.querySelector('#yahtzee');
   if (yahtzee.textContent === '' && rollNumber > 0) {
-    let sortedDiceArray = sortDiceArray('none')
-    let uniqueItems = [...new Set(sortedDiceArray)]
-    if (uniqueItems.length === 5 && uniqueItems[0] !== '0') {
-      yahtzee.textContent = '50'
+    const sortedDiceArray = sortDiceArray('none');
+    const uniqueItems = [...new Set(sortedDiceArray)];
+    if (uniqueItems.length === 1) {
+      yahtzee.textContent = '50';
     } else {
-      yahtzee.textContent = '0'
+      yahtzee.textContent = '0';
     }
-    resetRollNumber()
+    resetRollNumber();
   }
-}
+};
 
-function scoreChance() {
-  let chanceDiv = document.getElementById('chance')
+const scoreChance = () => {
+  const chanceDiv = document.querySelector('#chance');
   if (chanceDiv.textContent === '' && rollNumber > 0) {
-    let sortedDiceArray = sortDiceArray('none')
-    let sum = sortedDiceArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
+    const sortedDiceArray = sortDiceArray('none');
+    const sum = sortedDiceArray.reduce((a, b) => parseInt(a, 10) + parseInt(b, 10), 0);
     chanceDiv.textContent = sum;
-    resetRollNumber()
+    resetRollNumber();
   }
-}
+};
 
-function scoreBonus() {
-  let bonusDiv = document.getElementById('bonus')
-  let yahtzee = document.getElementById('yahtzee')
+const scoreBonus = () => {
+  const bonusDiv = document.querySelector('#bonus');
+  const yahtzee = document.querySelector('#yahtzee');
   if (bonusDiv.textContent === '' && yahtzee.textContent === '50' && rollNumber > 0) {
-    let sortedDiceArray = sortDiceArray('none')
-    let uniqueItems = [...new Set(sortedDiceArray)]
-    if (uniqueItems.length === 5 && uniqueItems[0] !== '0') {
-      bonusDiv.textContent = '100'
+    const sortedDiceArray = sortDiceArray('none');
+    const uniqueItems = [...new Set(sortedDiceArray)];
+    if (uniqueItems.length === 1) {
+      bonusDiv.textContent = '100';
     } else {
-      bonusDiv.textContent = '0'
+      bonusDiv.textContent = '0';
     }
-    resetRollNumber()
+    resetRollNumber();
   } else if (bonusDiv.textContent === '100') {
-    let sortedDiceArray = sortDiceArray('none')
-    let uniqueItems = [...new Set(sortedDiceArray)]
-    if (uniqueItems.length === 5 && uniqueItems[0] !== '0') {
-      bonusDiv.textContent = '200'
+    const sortedDiceArray = sortDiceArray('none');
+    const uniqueItems = [...new Set(sortedDiceArray)];
+    if (uniqueItems.length === 1) {
+      bonusDiv.textContent = '200';
     }
-    resetRollNumber()
+    resetRollNumber();
   } else if (bonusDiv.textContent === '200') {
-    let sortedDiceArray = sortDiceArray('none')
-    let uniqueItems = [...new Set(sortedDiceArray)]
-    if (uniqueItems.length === 5 && uniqueItems[0] !== '0') {
-      bonusDiv.textContent = '300'
+    const sortedDiceArray = sortDiceArray('none');
+    const uniqueItems = [...new Set(sortedDiceArray)];
+    if (uniqueItems.length === 1) {
+      bonusDiv.textContent = '300';
     }
-    resetRollNumber()
+    resetRollNumber();
   }
-}
+};
 
-function reset() {
-  let dice = document.getElementsByClassName('die');
-  for (let die of dice) {
-    die.textContent = ''
-    die.style = 'border: 2px solid black;'
-    die.className = 'die'
+const reset = () => {
+  const dice = document.querySelectorAll('.die');
+  for (const die of dice) {
+    die.textContent = '';
+    die.style = 'border: 2px solid black;';
+    die.className = 'die';
   }
-  let scoreSpans = document.getElementsByClassName('score-span');
-  for (let span of scoreSpans) {
-    span.textContent = ''
+  const scoreSpans = document.querySelectorAll('.score-span');
+  for (const span of scoreSpans) {
+    span.textContent = '';
   }
-  rollNumber = 0
-  turnNumber = 0
-  let rollSpan = document.getElementById('rollSpan')
-  rollSpan.textContent = rollNumber
-  let totalDiv = document.getElementById('total')
-  totalDiv.textContent = ''
-  let upperDiv = document.getElementById('upper-section')
-  upperDiv.textContent = ''
-  let rollBtn = document.getElementById('roll-btn')
-  rollBtn.disabled = false
-}
+  rollNumber = 0;
+  turnNumber = 0;
+  const rollSpan = document.querySelector('#rollSpan');
+  rollSpan.textContent = rollNumber;
+  const totalDiv = document.querySelector('#total');
+  totalDiv.textContent = '';
+  const upperDiv = document.querySelector('#upper-section');
+  upperDiv.textContent = '';
+  const rollBtn = document.querySelector('#roll-btn');
+  rollBtn.disabled = false;
+};
 
-function sortDiceArray(number) {
+const sortDiceArray = (number) => {
   if (number === 'none') {
-    let dice = document.getElementsByClassName('die');
-    let diceArray = [];
-    for (let die of dice) {
-      let child = (die.firstElementChild || die.firstChild)
-      diceArray.push(child.id)
+    const dice = document.querySelectorAll('.die');
+    const diceArray = [];
+    for (const die of dice) {
+      const child = (die.firstElementChild || die.firstChild);
+      diceArray.push(child.id);
     }
-    let sortedArray = diceArray.sort((a, b) => parseInt(a) - parseInt(b))
-    return sortedArray;
-  } else {
-    let dice = document.getElementsByClassName('die');
-    let diceArray = [];
-    for (let die of dice) {
-      let child = (die.firstElementChild || die.firstChild)
-      if (child.id == number) {
-        diceArray.push(child.id)
-      }
-    }
-    let sortedArray = diceArray.sort((a, b) => parseInt(a) - parseInt(b))
+    const sortedArray = diceArray.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
     return sortedArray;
   }
-}
+  const dice = document.getElementsByClassName('die');
+  const diceArray = [];
+  for (const die of dice) {
+    const child = (die.firstElementChild || die.firstChild);
+    if (child.id == number) {
+      diceArray.push(child.id);
+    }
+  }
+  const sortedArray = diceArray.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+  return sortedArray;
+};
