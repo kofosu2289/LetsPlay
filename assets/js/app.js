@@ -1,5 +1,5 @@
 const url = 'http://roll.diceapi.com/json/d6';
-let turnNumber = 0;
+let turnNumber = 12;
 let rollNumber = 0;
 
 // animate.css animation
@@ -8,33 +8,15 @@ document.querySelector('#page-wrap').classList.add('animated', 'bounceInDown');
 // change dice images when dice are rolled
 const updateDice = (id, roll) => {
   const dieDiv = document.querySelector(`#${id}`);
-  switch (roll) {
-    case 1:
-      dieDiv.innerHTML = '<img style="width: 34px; z-index: 2;" id="1" src="diefaces1.png"/>';
-      break;
-    case 2:
-      dieDiv.innerHTML = '<img style="width: 34px; z-index: 2;" id="2" src="diefaces2.png"/>';
-      break;
-    case 3:
-      dieDiv.innerHTML = '<img style="width: 34px; z-index: 2;" id="3" src="diefaces3.png"/>';
-      break;
-    case 4:
-      dieDiv.innerHTML = '<img style="width: 34px; z-index: 2;" id="4" src="diefaces4.png"/>';
-      break;
-    case 5:
-      dieDiv.innerHTML = '<img style="width: 34px; z-index: 2;" id="5" src="diefaces5.png"/>';
-      break;
-    case 6:
-      dieDiv.innerHTML = '<img style="width: 34px; z-index: 2;" id="6" src="diefaces6.png"/>';
-      break;
-  }
+  const content = `<img style="width: 34px; z-index: 2;" id="${roll}" src="assets/images/diefaces${roll}.png"/>`;
+  dieDiv.innerHTML = content;
 };
 
 // roll all available dice
 const rollAll = () => {
   if (rollNumber < 3) {
     const diceRoll = document.createElement('audio');
-    diceRoll.src = 'diceRoll.mp3';
+    diceRoll.src = 'assets/audio/diceRoll.mp3';
     diceRoll.play();
     setTimeout(async () => {
       const dice = document.querySelectorAll('.die');
@@ -126,6 +108,7 @@ function endGame() {
   const totalDiv = document.querySelector('#total');
   totalDiv.textContent = totalSum;
 
+  // game over modal -- https://sweetalert2.github.io/
   setTimeout(() => {
     Swal.fire({
       title: 'Game Over!',
@@ -141,6 +124,7 @@ function endGame() {
   }, 750);
 }
 
+// sort dice to make scoring of lower half easier
 const sortDiceArray = (number) => {
   if (number === 'none') {
     const dice = document.querySelectorAll('.die');
@@ -164,6 +148,7 @@ const sortDiceArray = (number) => {
   return sortedArray;
 };
 
+// top of scorecard points
 const scoreTop = (divID, number) => {
   const div = document.querySelector(`#${divID}`);
   if (div.textContent === '' && rollNumber > 0) {
@@ -173,6 +158,7 @@ const scoreTop = (divID, number) => {
     resetRollNumber();
   }
 };
+
 
 const scoreThreeKind = () => {
   const threeKind = document.querySelector('#three-kind');
