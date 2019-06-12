@@ -2,8 +2,11 @@ const url = 'http://roll.diceapi.com/json/d6';
 let turnNumber = 0;
 let rollNumber = 0;
 
+
 // animate.css animation
-document.querySelector('#page-wrap').classList.add('animated', 'bounceInDown');
+document.querySelector('#card').classList.add('animated', 'slideInLeft');
+document.querySelector('#controls').classList.add('animated', 'slideInRight');
+document.querySelector('#bigWords').classList.add('animated', 'rotateIn');
 
 // change dice images when dice are rolled
 const updateDice = (id, roll) => {
@@ -24,7 +27,7 @@ const rollAll = () => {
         if (die.className !== 'die active') {
           const response = await axios.get(url);
           const result = response.data.dice[0];
-          const roll = result.value;
+          const roll = Math.floor(Math.random() * result.value) + 1;
           updateDice(die.id, roll);
         }
       }
@@ -140,7 +143,7 @@ const sortDiceArray = (number) => {
   const diceArray = [];
   for (const die of dice) {
     const child = (die.firstElementChild || die.firstChild);
-    if (child.id == number) {
+    if (child.id === number) {
       diceArray.push(child.id);
     }
   }
@@ -247,7 +250,8 @@ const scoreFullHouse = () => {
           break;
       }
     }
-    if ((firstArray.length === 3 && lastArray.length === 2) || (firstArray.length === 2 && lastArray.length === 3)) {
+    if ((firstArray.length === 3 && lastArray.length === 2)
+      || (firstArray.length === 2 && lastArray.length === 3)) {
       fullHouse.textContent = '25';
     } else {
       fullHouse.textContent = '0';
@@ -266,16 +270,15 @@ const scoreSmallStraight = () => {
       const firstFour = sortedDiceArray.slice(0, 4).join('');
       const lastFour = sortedDiceArray.slice(1, 5).join('');
 
-      const smallStraight = document.getElementById('small-straight');
-
       if (
-        firstFour === '1234' ||
-        firstFour === '2345' ||
-        firstFour === '3456' ||
-        lastFour === '1234' ||
-        lastFour === '2345' ||
-        lastFour === '3456'
+        firstFour === '1234'
+        || firstFour === '2345'
+        || firstFour === '3456'
+        || lastFour === '1234'
+        || lastFour === '2345'
+        || lastFour === '3456'
       ) {
+        console.log('small straight');
         smallStraight.textContent = '30';
       } else {
         smallStraight.textContent = '0';
@@ -284,9 +287,9 @@ const scoreSmallStraight = () => {
       const joinedUnique = uniqueItems.join('');
 
       if (
-        joinedUnique === '1234' ||
-        joinedUnique === '2345' ||
-        joinedUnique === '3456'
+        joinedUnique === '1234'
+        || joinedUnique === '2345'
+        || joinedUnique === '3456'
       ) {
         smallStraight.textContent = '30';
       } else {
