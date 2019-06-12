@@ -1,5 +1,5 @@
 const url = 'http://roll.diceapi.com/json/d6';
-let turnNumber = 12;
+let turnNumber = 0;
 let rollNumber = 0;
 
 // animate.css animation
@@ -111,7 +111,7 @@ function endGame() {
   // game over modal -- https://sweetalert2.github.io/
   setTimeout(() => {
     Swal.fire({
-      title: 'Game Over!',
+      title: `Game Over!\nYour score is: ${totalSum}`,
       animation: false,
       customClass: {
         popup: 'animated zoomIn',
@@ -158,7 +158,6 @@ const scoreTop = (divID, number) => {
     resetRollNumber();
   }
 };
-
 
 const scoreThreeKind = () => {
   const threeKind = document.querySelector('#three-kind');
