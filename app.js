@@ -95,46 +95,73 @@ const resetRollNumber = () => {
   }
   if (turnNumber === 13) {
     // game over
-    const scoreSpans = document.querySelectorAll('.score-span');
-    const totalScoresArray = [];
-    for (const span of scoreSpans) {
-      if (span.textContent === '') {
-        span.textContent = '0';
-      }
-      totalScoresArray.push(span.textContent);
-    }
-    let totalSum = totalScoresArray.reduce((a, b) => parseInt(a, 10) + parseInt(b, 10), 0);
-
-    const topSection = document.querySelectorAll('.top-scores');
-    const topSectionArray = [];
-    for (const score of topSection) {
-      topSectionArray.push(score.textContent);
-    }
-    const topSum = topSectionArray.reduce((a, b) => parseInt(a, 10) + parseInt(b, 10), 0);
-
-    if (topSum >= 63) {
-      totalSum += 35;
-    }
-
-    const rollBtn = document.querySelector('#roll-btn');
-    rollBtn.disabled = true;
-    const totalDiv = document.querySelector('#total');
-    totalDiv.textContent = totalSum;
-
-    setTimeout(() => {
-      Swal.fire({
-        title: 'Game Over!',
-        animation: false,
-        customClass: {
-          popup: 'animated zoomIn',
-        },
-      });
-
-      document.querySelector('.swal2-confirm').addEventListener('click', () => {
-        document.location.reload();
-      });
-    }, 750);
+    endGame();
   }
+};
+
+function endGame() {
+  const scoreSpans = document.querySelectorAll('.score-span');
+  const totalScoresArray = [];
+  for (const span of scoreSpans) {
+    if (span.textContent === '') {
+      span.textContent = '0';
+    }
+    totalScoresArray.push(span.textContent);
+  }
+  let totalSum = totalScoresArray.reduce((a, b) => parseInt(a, 10) + parseInt(b, 10), 0);
+
+  const topSection = document.querySelectorAll('.top-scores');
+  const topSectionArray = [];
+  for (const score of topSection) {
+    topSectionArray.push(score.textContent);
+  }
+  const topSum = topSectionArray.reduce((a, b) => parseInt(a, 10) + parseInt(b, 10), 0);
+
+  if (topSum >= 63) {
+    totalSum += 35;
+  }
+
+  const rollBtn = document.querySelector('#roll-btn');
+  rollBtn.disabled = true;
+  const totalDiv = document.querySelector('#total');
+  totalDiv.textContent = totalSum;
+
+  setTimeout(() => {
+    Swal.fire({
+      title: 'Game Over!',
+      animation: false,
+      customClass: {
+        popup: 'animated zoomIn',
+      },
+    });
+
+    document.querySelector('.swal2-confirm').addEventListener('click', () => {
+      document.location.reload();
+    });
+  }, 750);
+}
+
+const sortDiceArray = (number) => {
+  if (number === 'none') {
+    const dice = document.querySelectorAll('.die');
+    const diceArray = [];
+    for (const die of dice) {
+      const child = (die.firstElementChild || die.firstChild);
+      diceArray.push(child.id);
+    }
+    const sortedArray = diceArray.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+    return sortedArray;
+  }
+  const dice = document.getElementsByClassName('die');
+  const diceArray = [];
+  for (const die of dice) {
+    const child = (die.firstElementChild || die.firstChild);
+    if (child.id == number) {
+      diceArray.push(child.id);
+    }
+  }
+  const sortedArray = diceArray.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+  return sortedArray;
 };
 
 const scoreTop = (divID, number) => {
@@ -378,27 +405,4 @@ const reset = () => {
   upperDiv.textContent = '';
   const rollBtn = document.querySelector('#roll-btn');
   rollBtn.disabled = false;
-};
-
-const sortDiceArray = (number) => {
-  if (number === 'none') {
-    const dice = document.querySelectorAll('.die');
-    const diceArray = [];
-    for (const die of dice) {
-      const child = (die.firstElementChild || die.firstChild);
-      diceArray.push(child.id);
-    }
-    const sortedArray = diceArray.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
-    return sortedArray;
-  }
-  const dice = document.getElementsByClassName('die');
-  const diceArray = [];
-  for (const die of dice) {
-    const child = (die.firstElementChild || die.firstChild);
-    if (child.id == number) {
-      diceArray.push(child.id);
-    }
-  }
-  const sortedArray = diceArray.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
-  return sortedArray;
 };
