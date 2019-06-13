@@ -1,3 +1,10 @@
+/* eslint-disable operator-linebreak */
+/* eslint-disable default-case */
+/* eslint-disable no-use-before-define */
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-undef */
 const url = 'http://roll.diceapi.com/json/d6';
 let turnNumber = 0;
 let rollNumber = 0;
@@ -15,12 +22,14 @@ Swal.fire({
   <i><u>Notes</u><br>
   - A second click of a die will deselect it<br>
   - If you score more than 1 Yahtzee, click 'Bonus Yahtzee' to register the score<br>
-  - Click 'New Game' to start a new game`,
+  - Click 'New Game' to start a new game<br>
+  - You MUST choose a scoring option at the end of Roll 3`,
 
   width: '60vw',
   focusConfirm: false,
   confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',
   confirmButtonAriaLabel: 'Thumbs up, great!',
+  allowOutsideClick: false,
 });
 
 // game elements slide out of screen if screen is not wide enough
@@ -156,6 +165,7 @@ function endGame() {
       customClass: {
         popup: 'animated zoomIn',
       },
+      allowOutsideClick: false,
     });
 
     document.querySelector('.swal2-confirm').addEventListener('click', () => {
