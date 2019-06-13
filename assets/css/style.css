@@ -135,7 +135,7 @@ button {
   display: flex;
 }
 
-
+/* ---------------MEDIA QUERIES--------------------- */
 @media (max-width: 630px) {
   #page-wrap {
     flex-direction: column;
@@ -155,7 +155,7 @@ button {
     flex-direction: column;
   }
 
- #controls {
+  #controls {
     margin-left: 0;
   }
 }

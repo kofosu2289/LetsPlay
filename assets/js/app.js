@@ -2,7 +2,7 @@ const url = 'http://roll.diceapi.com/json/d6';
 let turnNumber = 0;
 let rollNumber = 0;
 
-// rules modal
+// rules modal - https://sweetalert2.github.io/
 Swal.fire({
   title: '<strong><u>How To Play</u></strong>',
   html: `<ul class = 'ruleContainer'>
@@ -39,28 +39,6 @@ setInterval(() => {
     document.querySelector('#controls').classList.add('slideInRight');
   }
 }, 1);
-
-// const error = () => {
-//   Swal.fire({
-//     title: `
-// 's Play Yahtzee! does not support this screen size`,
-//     type: 'warning',
-//     animation: false,
-//     customClass: {
-//       popup: 'animated zoomIn',
-//     },
-//     confirmButtonText: `Okay I understand!`
-//   }).then((result) => {
-//     if (result.value) {
-//       window.location.reload();
-//     }
-//   });
-// }
-
-// if (screen.width < 360) {
-//   error();
-// }
-
 
 // animate.css animation
 document.querySelector('#card').classList.add('animated', 'slideInLeft');
