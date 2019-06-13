@@ -162,6 +162,7 @@ const scoreTop = (divID, number) => {
   }
 };
 
+// if user chooses three of a kind
 const scoreThreeKind = () => {
   const threeKind = document.querySelector('#three-kind');
   if (threeKind.textContent === '' && rollNumber > 0) {
@@ -198,6 +199,8 @@ const scoreThreeKind = () => {
   }
 };
 
+
+// if user selects four of a kind
 const scoreFourKind = () => {
   const fourKind = document.querySelector('#four-kind');
   if (fourKind.textContent === '' && rollNumber > 0) {
@@ -229,6 +232,7 @@ const scoreFourKind = () => {
   }
 };
 
+// if user selects full house
 const scoreFullHouse = () => {
   const fullHouse = document.querySelector('#full-house');
   if (fullHouse.textContent === '' && rollNumber > 0) {
@@ -250,8 +254,8 @@ const scoreFullHouse = () => {
           break;
       }
     }
-    if ((firstArray.length === 3 && lastArray.length === 2)
-      || (firstArray.length === 2 && lastArray.length === 3)) {
+    if ((firstArray.length === 3 && lastArray.length === 2) ||
+      (firstArray.length === 2 && lastArray.length === 3)) {
       fullHouse.textContent = '25';
     } else {
       fullHouse.textContent = '0';
@@ -260,48 +264,29 @@ const scoreFullHouse = () => {
   }
 };
 
+// if user selects small straight
 const scoreSmallStraight = () => {
+  const winningArrays = [
+    [1, 2, 3, 4],
+    [2, 3, 4, 5],
+    [3, 4, 5, 6],
+  ];
   const smallStraight = document.querySelector('#small-straight');
   if (smallStraight.textContent === '' && rollNumber > 0) {
     const sortedDiceArray = sortDiceArray('none');
     const uniqueItems = [...new Set(sortedDiceArray)];
-
-    if (uniqueItems.length === 1) {
-      const firstFour = sortedDiceArray.slice(0, 4).join('');
-      const lastFour = sortedDiceArray.slice(1, 5).join('');
-
-      if (
-        firstFour === '1234'
-        || firstFour === '2345'
-        || firstFour === '3456'
-        || lastFour === '1234'
-        || lastFour === '2345'
-        || lastFour === '3456'
-      ) {
-        console.log('small straight');
-        smallStraight.textContent = '30';
-      } else {
-        smallStraight.textContent = '0';
-      }
-    } else if (uniqueItems.length === 1) {
-      const joinedUnique = uniqueItems.join('');
-
-      if (
-        joinedUnique === '1234'
-        || joinedUnique === '2345'
-        || joinedUnique === '3456'
-      ) {
-        smallStraight.textContent = '30';
-      } else {
-        smallStraight.textContent = '0';
-      }
+    if ((uniqueItems.toString() === winningArrays[0].toString()) ||
+      (uniqueItems.toString() === winningArrays[1].toString()) ||
+      (uniqueItems.toString() === winningArrays[0].toString())) {
+      smallStraight.textContent = '30';
     } else {
       smallStraight.textContent = '0';
     }
-    resetRollNumber();
   }
+  resetRollNumber();
 };
 
+// if user selects large straight
 const scoreLargeStraight = () => {
   const winningArrays = [
     [1, 2, 3, 4, 5],
@@ -319,6 +304,7 @@ const scoreLargeStraight = () => {
   }
 };
 
+// if user selects Yahtzee
 const scoreYahtzee = () => {
   const yahtzee = document.querySelector('#yahtzee');
   if (yahtzee.textContent === '' && rollNumber > 0) {
@@ -333,6 +319,7 @@ const scoreYahtzee = () => {
   }
 };
 
+// if user selects chance
 const scoreChance = () => {
   const chanceDiv = document.querySelector('#chance');
   if (chanceDiv.textContent === '' && rollNumber > 0) {
@@ -343,6 +330,7 @@ const scoreChance = () => {
   }
 };
 
+// calculate bonus score
 const scoreBonus = () => {
   const bonusDiv = document.querySelector('#bonus');
   const yahtzee = document.querySelector('#yahtzee');
@@ -372,6 +360,7 @@ const scoreBonus = () => {
   }
 };
 
+// new game button
 const reset = () => {
   const dice = document.querySelectorAll('.die');
   for (const die of dice) {
@@ -393,4 +382,3 @@ const reset = () => {
   upperDiv.textContent = '';
   const rollBtn = document.querySelector('#roll-btn');
   rollBtn.disabled = false;
-};
