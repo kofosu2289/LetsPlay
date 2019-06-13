@@ -2,6 +2,65 @@ const url = 'http://roll.diceapi.com/json/d6';
 let turnNumber = 0;
 let rollNumber = 0;
 
+// rules modal
+Swal.fire({
+  title: '<strong><u>How To Play</u></strong>',
+  html: `<ul class = 'ruleContainer'>
+  <li>- Click 'Roll Dice' to begin your first dice roll</li>
+  <li>- Click on the dice you want to hold</li>
+  <li>- Repeat until roll 3</li>
+  <li>- Choose your scoring option based on the dice you have at the end of roll 3</li>
+  </ul>
+  <br>
+  <i><u>Notes</u><br>
+  - A second click of a die will deselect it<br>
+  - If you score more than 1 Yahtzee, click 'Bonus Yahtzee' to register the score<br>
+  - Click 'New Game' to start a new game`,
+
+  width: '60vw',
+  focusConfirm: false,
+  confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',
+  confirmButtonAriaLabel: 'Thumbs up, great!',
+});
+
+// game elements slide out of screen if screen is not wide enough
+setInterval(() => {
+  if (screen.width < 360) {
+    document.querySelector('#card').classList.remove('slideInLeft');
+    document.querySelector('#controls').classList.remove('slideInRight');
+
+    document.querySelector('#card').classList.add('fadeOutLeft');
+    document.querySelector('#controls').classList.add('fadeOutRight');
+  } else {
+    document.querySelector('#card').classList.remove('fadeOutLeftBig');
+    document.querySelector('#controls').classList.remove('fadeOutRightBig');
+
+    document.querySelector('#card').classList.add('slideInLeft');
+    document.querySelector('#controls').classList.add('slideInRight');
+  }
+}, 1);
+
+// const error = () => {
+//   Swal.fire({
+//     title: `
+// 's Play Yahtzee! does not support this screen size`,
+//     type: 'warning',
+//     animation: false,
+//     customClass: {
+//       popup: 'animated zoomIn',
+//     },
+//     confirmButtonText: `Okay I understand!`
+//   }).then((result) => {
+//     if (result.value) {
+//       window.location.reload();
+//     }
+//   });
+// }
+
+// if (screen.width < 360) {
+//   error();
+// }
+
 
 // animate.css animation
 document.querySelector('#card').classList.add('animated', 'slideInLeft');
@@ -382,3 +441,4 @@ const reset = () => {
   upperDiv.textContent = '';
   const rollBtn = document.querySelector('#roll-btn');
   rollBtn.disabled = false;
+};

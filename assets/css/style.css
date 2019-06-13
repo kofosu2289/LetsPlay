@@ -8,6 +8,10 @@ body {
   align-items: center;
 }
 
+.ruleContainer {
+  list-style: none;
+}
+
 button {
   font-family: 'Raleway', sans-serif;
 }
@@ -131,6 +135,7 @@ button {
   display: flex;
 }
 
+
 @media (max-width: 630px) {
   #page-wrap {
     flex-direction: column;
@@ -150,8 +155,7 @@ button {
     flex-direction: column;
   }
 
-
-  #controls {
+ #controls {
     margin-left: 0;
   }
 }
