@@ -7,6 +7,12 @@ http://yahtsee.surge.sh/
 ![](assets/images/play_screenshot.png)
 ![](assets/images/end_screenshot.png)
 
+## Instructions
+To Play Locally:
+- In your terminal, clone this repo
+- ``` cd ``` into the clone directory
+- ``` open index.html ``` 
+
 ## API
 
 This project makes use of the DiceAPI
